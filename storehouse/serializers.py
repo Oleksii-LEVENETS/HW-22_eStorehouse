@@ -19,6 +19,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
 
 class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
     order = serializers.PrimaryKeyRelatedField(queryset=Order.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
         model = OrderItem

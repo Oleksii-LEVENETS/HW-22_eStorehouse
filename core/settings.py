@@ -270,6 +270,7 @@ else:
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
+    # "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
     # "DEFAULT_PERMISSION_CLASSES": (
     #     # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
     #     # "rest_framework.permissions.IsAuthenticated",
