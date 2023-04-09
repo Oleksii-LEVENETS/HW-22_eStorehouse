@@ -19,6 +19,7 @@ class Product(models.Model):
 
 
 class Order(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, db_index=True, unique=True)  # noqa: A003
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
     email = models.EmailField()
@@ -39,6 +40,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, db_index=True, unique=True)  # noqa: A003
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name="order_items", on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
