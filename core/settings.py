@@ -55,15 +55,13 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_filters",
     "rest_framework",
-    # "rest_framework.authtoken",
-    # "dj_rest_auth",
+    "drf_spectacular",
     # My apps:
     "storehouse",
 ]
 
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
-    # INSTALLED_APPS.append("django_celery_results")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -142,43 +140,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-# Celery Configuration Options
-# CELERY_TASK_TRACK_STARTED = True
-# CELERY_TASK_TIME_LIMIT = 30 * 60
-
-# CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
-# CELERY_RESULT_BACKEND = 'django-db'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-# CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379/0")
-
-# CELERY_BROKER_URL = 'amqp://localhost:5672'
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://localhost:5672")
-
-# CELERY_CACHE_BACKEND = "django-cache"
-# CELERY_CACHE_BACKEND = "default"
-#
-# CELERY_ACCEPT_CONTENT = ["application/json"]
-# CELERY_TASK_SERIALIZER = "json"
-# CELERY_RESULT_SERIALIZER = "json"
-# CELERY_TIMEZONE = "Europe/Kiev"
-
-
-# Cache time to live is 15 seconds:
-# CACHE_TTL = 15
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://localhost:6379",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#             "db": "10",
-#             "parser_class": "redis.connection.PythonParser",
-#             "pool_class": "redis.BlockingConnectionPool",
-#         },
-#     }
-# }
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -194,91 +155,16 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "storehouse/static")]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# CART_SESSION_ID = "cart"
-
-# REST_FRAMEWORK = {
-#     "EXCEPTION_HANDLER": "rest_framework_json_api.exceptions.exception_handler",
-#     "DEFAULT_PARSER_CLASSES": ("rest_framework_json_api.parsers.JSONParser",),
-#     "DEFAULT_RENDERER_CLASSES": (
-#         "rest_framework_json_api.renderers.JSONRenderer",
-#         "rest_framework.renderers.BrowsableAPIRenderer",
-#     ),
-#     "DEFAULT_METADATA_CLASS": "rest_framework_json_api.metadata.JSONAPIMetadata",
-#     "DEFAULT_FILTER_BACKENDS": (
-#         "rest_framework_json_api.filters.QueryParameterValidationFilter",
-#         "rest_framework_json_api.filters.OrderingFilter",
-#         "rest_framework_json_api.django_filters.DjangoFilterBackend",
-#         "rest_framework.filters.SearchFilter",
-#     ),
-#     "SEARCH_PARAM": "filter[search]",
-#     "TEST_REQUEST_RENDERER_CLASSES": ("rest_framework_json_api.renderers.JSONRenderer",),
-#     "TEST_REQUEST_DEFAULT_FORMAT": "vnd.api+json",
-# }
-
-# Add to test email:
-if not DEBUG:
-    DEFAULT_FROM_EMAIL = "BookShop <noreply@bookshop.com>"
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = os.environ.get("EMAIL_HOST")
-    EMAIL_USE_TLS = True
-    EMAIL_PORT = os.environ.get("EMAIL_PORT")
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    EMAIL_HOST_USER = "admin@admin.com"
-
-    # Email configuration
-    # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    # EMAIL_HOST = "mailhog"
-    # EMAIL_PORT = "25"
-    # EMAIL_HOST_USER = ""
-    # EMAIL_HOST_PASSWORD = ""
-    # EMAIL_USE_SSL = False
-
-##################
-# USER_AGENTS_CACHE = "default"
-#
-# REDIS_URL = env("REDIS_URL", default="redis://redis:6379/0")
-# REDIS_CACHE = env("REDIS_CACHE", default="redis:6379")
-# AMQP_URL = env("AMQP_URL", default="amqp://rabbitmq:5672")
-#
-# BROKER_URL = AMQP_URL
-# CELERY_result_backend = REDIS_URL
-# CELERY_BROKER_URL = BROKER_URL
-#
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": [
-#             REDIS_URL,
-#         ],
-#         "OPTIONS": {
-#             "CONNECTION_POOL_CLASS": "redis.BlockingConnectionPool",
-#             "CONNECTION_POOL_CLASS_KWARGS": {
-#                 "max_connections": 50,
-#                 "timeout": 20,
-#             },
-#             "MAX_CONNECTIONS": 1000,
-#             "PICKLE_VERSION": -1,
-#         },
-#     },
-# }
-####################
-
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
-    # "DATETIME_FORMAT": "%Y-%m-%d %H:%M:%S",
-    # "DEFAULT_PERMISSION_CLASSES": (
-    #     # "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
-    #     # "rest_framework.permissions.IsAuthenticated",
-    #     "rest_framework.permissions.IsAuthenticatedOrReadOnly",
-    # ),
-    # "DEFAULT_AUTHENTICATION_CLASSES": (
-    #     # "rest_framework.authentication.BasicAuthentication",
-    #     "rest_framework.authentication.SessionAuthentication",
-    #     "rest_framework.authentication.TokenAuthentication",
-    # ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "eStorehouse API",
+    "DESCRIPTION": "eStorehouse API description",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
